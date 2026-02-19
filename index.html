@@ -3,54 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mywebgallary | All-in-One</title>
-    
+    <title>mywebgallary | Media Hub</title>
     <style>
         :root {
             --primary: #2d3436;
-            --accent: #00b894; /* A fresh mint green */
-            --bg: #f9f9f9;
+            --accent: #6c5ce7; /* Elegant Purple */
+            --bg: #f5f6fa;
             --white: #ffffff;
-            --transition: all 0.3s ease;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             margin: 0;
-            padding: 0;
             background-color: var(--bg);
             color: var(--primary);
-            line-height: 1.6;
-        }
-
-        /* Header Styling */
-        header {
-            background-color: var(--white);
-            padding: 3rem 1rem;
             text-align: center;
-            border-bottom: 1px solid #eee;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            letter-spacing: -1px;
-        }
-
-        header p {
-            color: #636e72;
-            margin-top: 0.5rem;
-        }
-
-        /* Tab Navigation */
+        header { padding: 2rem; background: var(--white); border-bottom: 1px solid #ddd; }
+        
         .nav-tabs {
             display: flex;
             justify-content: center;
             background: var(--white);
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
         .tab-btn {
@@ -58,75 +37,57 @@
             border: none;
             background: none;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             color: #636e72;
-            transition: var(--transition);
             border-bottom: 3px solid transparent;
         }
 
-        .tab-btn:hover {
-            color: var(--accent);
+        .tab-btn.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
+
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .tab-panel { display: none; animation: fadeIn 0.4s; }
+        .tab-panel.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Upload Area */
+        .upload-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px dashed #ccc;
+            margin-bottom: 2rem;
         }
 
-        .tab-btn.active {
-            color: var(--accent);
-            border-bottom: 3px solid var(--accent);
-        }
-
-        /* Content Sections */
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .tab-panel {
-            display: none; /* Hidden by default */
-            animation: slideIn 0.4s ease-out;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        input[type="file"] { margin: 1rem 0; }
 
         /* Gallery Grid */
-        .gallery-grid {
+        .media-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
         }
 
-        .gallery-item {
-            background: #dfe6e9;
-            aspect-ratio: 1 / 1;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #b2bec3;
-            border: 2px dashed #b2bec3;
-            transition: var(--transition);
+        .media-card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .gallery-item:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: scale(1.02);
-            background: #e3faf5;
+        .media-card img, .media-card video {
+            width: 100%;
+            border-radius: 5px;
+            object-fit: cover;
         }
 
-        footer {
-            text-align: center;
-            padding: 4rem 1rem;
-            color: #b2bec3;
+        /* VR/Game Note */
+        .info-box {
+            background: #eef2ff;
+            border-left: 5px solid var(--accent);
+            padding: 1rem;
+            text-align: left;
+            margin-top: 1rem;
             font-size: 0.9rem;
         }
     </style>
@@ -135,61 +96,81 @@
 
     <header>
         <h1>mywebgallary</h1>
-        <p>Curating simplicity in every pixel.</p>
+        <p>Your local media dashboard</p>
     </header>
 
     <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="showTab(event, 'home')">Home</button>
-        <button class="tab-btn" onclick="showTab(event, 'gallery')">Gallery</button>
-        <button class="tab-btn" onclick="showTab(event, 'about')">About</button>
+        <button class="tab-btn active" onclick="showTab(event, 'images')">Images</button>
+        <button class="tab-btn" onclick="showTab(event, 'videos')">Videos & Games</button>
     </nav>
 
     <div class="container">
-        <div id="home" class="tab-panel active">
-            <h2>Welcome Back</h2>
-            <p>This is your minimalist dashboard. Use the tabs above to navigate through your collection. This UI is designed to stay out of the way of your content.</p>
-        </div>
-
-        <div id="gallery" class="tab-panel">
-            <h2>Your Collection</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">Item 1</div>
-                <div class="gallery-item">Item 2</div>
-                <div class="gallery-item">Item 3</div>
-                <div class="gallery-item">Item 4</div>
-                <div class="gallery-item">Item 5</div>
-                <div class="gallery-item">Item 6</div>
+        <div id="images" class="tab-panel active">
+            <div class="upload-section">
+                <h3>Upload Photos</h3>
+                <input type="file" id="imageInput" accept="image/*" multiple>
             </div>
+            <div id="imageGrid" class="media-grid"></div>
         </div>
 
-        <div id="about" class="tab-panel">
-            <h2>The Vision</h2>
-            <p><strong>mywebgallary</strong> was created as a lightweight solution for creators who want a clean, distraction-free way to showcase their work.</p>
-            <p>Built with pure HTML, CSS, and JS—no heavy frameworks required.</p>
+        <div id="videos" class="tab-panel">
+            <div class="upload-section">
+                <h3>Upload Videos</h3>
+                <input type="file" id="videoInput" accept="video/*" multiple>
+            </div>
+
+            <div class="info-box">
+                <strong>🎮 Sharing to VRChat/Games:</strong><br>
+                Because this website is running locally, games cannot "see" your video via a URL yet. 
+                To share, you would typically need to upload your video to a host (like Streamable or YouTube) or use a tool like <strong>TopazChat</strong> or <strong>VRCDN</strong> to get a link that VRChat players can play.
+            </div>
+
+            <div id="videoGrid" class="media-grid" style="margin-top:2rem;"></div>
         </div>
     </div>
 
-    <footer>
-        &copy; 2026 mywebgallary. Built with precision.
-    </footer>
-
     <script>
+        // Tab Logic
         function showTab(event, tabId) {
-            // 1. Hide all panels
-            const panels = document.querySelectorAll('.tab-panel');
-            panels.forEach(panel => panel.classList.remove('active'));
-
-            // 2. Deactivate all buttons
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            // 3. Show the selected panel
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-
-            // 4. Set the clicked button as active
             event.currentTarget.classList.add('active');
         }
-    </script>
 
+        // Image Upload Logic
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const grid = document.getElementById('imageGrid');
+            Array.from(e.target.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const div = document.createElement('div');
+                    div.className = 'media-card';
+                    div.innerHTML = `<img src="${event.target.result}"><p>${file.name}</p>`;
+                    grid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Video Upload Logic
+        document.getElementById('videoInput').addEventListener('change', function(e) {
+            const grid = document.getElementById('videoGrid');
+            Array.from(e.target.files).forEach(file => {
+                const url = URL.createObjectURL(file);
+                const div = document.createElement('div');
+                div.className = 'media-card';
+                div.innerHTML = `
+                    <video controls src="${url}"></video>
+                    <p>${file.name}</p>
+                    <button onclick="alert('To share this in VRChat, you must host it on a public URL first!')" 
+                            style="background:var(--accent); color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">
+                        Share Link
+                    </button>
+                `;
+                grid.appendChild(div);
+            });
+        });
+    </script>
 </body>
 </html>
