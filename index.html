@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mywebgallary | All-in-One</title>
+    
+    <style>
+        :root {
+            --primary: #2d3436;
+            --accent: #00b894; /* A fresh mint green */
+            --bg: #f9f9f9;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: #636e72;
+            margin-top: 0.5rem;
+        }
+
+        /* Tab Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #636e72;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: var(--accent);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* Content Sections */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tab-panel {
+            display: none; /* Hidden by default */
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: #dfe6e9;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #b2bec3;
+            border: 2px dashed #b2bec3;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(1.02);
+            background: #e3faf5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>mywebgallary</h1>
+        <p>Curating simplicity in every pixel.</p>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="showTab(event, 'home')">Home</button>
+        <button class="tab-btn" onclick="showTab(event, 'gallery')">Gallery</button>
+        <button class="tab-btn" onclick="showTab(event, 'about')">About</button>
+    </nav>
+
+    <div class="container">
+        <div id="home" class="tab-panel active">
+            <h2>Welcome Back</h2>
+            <p>This is your minimalist dashboard. Use the tabs above to navigate through your collection. This UI is designed to stay out of the way of your content.</p>
+        </div>
+
+        <div id="gallery" class="tab-panel">
+            <h2>Your Collection</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">Item 1</div>
+                <div class="gallery-item">Item 2</div>
+                <div class="gallery-item">Item 3</div>
+                <div class="gallery-item">Item 4</div>
+                <div class="gallery-item">Item 5</div>
+                <div class="gallery-item">Item 6</div>
+            </div>
+        </div>
+
+        <div id="about" class="tab-panel">
+            <h2>The Vision</h2>
+            <p><strong>mywebgallary</strong> was created as a lightweight solution for creators who want a clean, distraction-free way to showcase their work.</p>
+            <p>Built with pure HTML, CSS, and JS—no heavy frameworks required.</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 mywebgallary. Built with precision.
+    </footer>
+
+    <script>
+        function showTab(event, tabId) {
+            // 1. Hide all panels
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // 2. Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. Show the selected panel
+            document.getElementById(tabId).classList.add('active');
+
+            // 4. Set the clicked button as active
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
